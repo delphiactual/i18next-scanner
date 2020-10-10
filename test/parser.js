@@ -1092,14 +1092,14 @@ test('Custom keySeparator and nsSeparator', (t) => {
         ns: ['translation', 'myNamespace'],
         defaultValue: function(lng, ns, key) {
             if (lng === 'en') {
-                return key;
+                return key.replace(/\r\n/g, '\n');
             }
             return '__NOT_TRANSLATED__';
         },
         keySeparator: false,
         nsSeparator: false
     });
-    const content = fs.readFileSync(path.resolve(__dirname, 'fixtures/custom-separators.js'), 'utf8');
+    const content = fs.readFileSync(path.resolve(__dirname, 'fixtures/custom-separators.js'), 'utf8').replace(/\r\n/g, '\n');
     const wanted = {
         'en': {
             'translation': {
