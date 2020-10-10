@@ -527,6 +527,13 @@ Below are the configuration options with their default values:
     pluralSeparator: '_',
     contextSeparator: '_',
     contextDefaultValues: [],
+    contextList: {
+        'default': {
+            list: [],
+            fallback: false,
+            separator: '_'
+        },
+    },
     interpolation: {
         prefix: '{{',
         suffix: '}}'
@@ -752,6 +759,19 @@ Type: `Array` Default: `[]`
 
 A list of default context values, used when the scanner encounters dynamic value as a `context`.
 For a list of `['male', 'female']` the scanner will generate an entry for each value.
+
+#### contextList
+
+Type: `Object` Default: `{'default': { list: [], fallback: false, separator: '_' }`
+
+An object of curated lists for valid `context`, with fallback and separator overrides.
+
+```js
+contextList = { 
+    'gender': { list: ['male', 'female'], fallback: true, separator: '' }
+    'location': { list: ['foo', 'bar', 'baz'], fallback: false, separator: '_' }
+}
+```
 
 #### plural
 
