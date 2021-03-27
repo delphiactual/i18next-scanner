@@ -1016,7 +1016,7 @@ test('Context with plural combined', (t) => {
         const parser = new Parser({
             context: true,
             contextFallback: true,
-            contextList: {'gender': {list: ['male', 'female'], fallback: false}},
+            contextList: {'gender': {list: ['male', 'female'], fallback: false }},
             plural: false
         });
         parser.parseFuncFromString(content);
@@ -1121,14 +1121,14 @@ test('Extract properties from template literals', (t) => {
     const parser = new Parser({
         defaultValue: function(lng, ns, key) {
             if (lng === 'en') {
-                return key;
+                return key.replace(/\r\n/g, '\n');;
             }
             return '__NOT_TRANSLATED__';
         },
         keySeparator: false,
         nsSeparator: false
     });
-    const content = fs.readFileSync(path.resolve(__dirname, 'fixtures/template-literals.js'), 'utf8');
+    const content = fs.readFileSync(path.resolve(__dirname, 'fixtures/template-literals.js'), 'utf8').replace(/\r\n/g, '\n');
     const wanted = {
         'en': {
             'translation': {

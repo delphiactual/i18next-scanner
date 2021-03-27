@@ -531,6 +531,7 @@ Below are the configuration options with their default values:
         'default': {
             list: [],
             fallback: false
+            separator: '_',
         },
     },
     interpolation: {

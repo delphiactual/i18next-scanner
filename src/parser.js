@@ -10,6 +10,7 @@ import deepMerge from 'deepmerge';
 import ensureArray from 'ensure-array';
 import { parse } from 'esprima';
 import _ from 'lodash';
+import optionalChaining from 'acorn-optional-chaining';
 import parse5 from 'parse5';
 import sortObject from 'sortobject';
 import i18next from 'i18next';
@@ -81,7 +82,7 @@ const defaults = {
     contextFallback: true, // whether to add a fallback key as well as the context form key
     contextSeparator: '_', // char to split context from key
     contextDefaultValues: [], // list of values for dynamic values
-    contextList: { 'default': { list: [], fallback: false } }, // all valid dynamic values
+    contextList: { 'default': { list: [], fallback: false, separator: '_' } }, // all valid dynamic values
 
     // Plural Form
     plural: true, // whether to add plural form key
@@ -613,7 +614,7 @@ class Parser {
         };
 
         try {
-            const ast = acorn.Parser.extend(acornStage3, acornJsx())
+            const ast = acorn.Parser.extend(acornStage3, optionalChaining, acornJsx())
                 .parse(content, {
                     ...defaults.trans.acorn,
                     ...acornOptions
@@ -946,6 +947,8 @@ class Parser {
                     return [];
                 })();
 
+                const cntxtSeparator = contextList?.[options.contextList]?.separator ?? contextSeparator;
+
                 if (containsPlural) {
                     let suffixes = pluralFallback
                         ? this.pluralSuffixes[lng]
@@ -958,7 +961,7 @@ class Parser {
                     if (containsContext && containsPlural) {
                         suffixes.forEach((pluralSuffix) => {
                             contextValues.forEach(contextValue => {
-                                resKeys.push(`${key}${contextSeparator}${contextValue}${pluralSuffix}`);
+                                resKeys.push(`${key}${cntxtSeparator}${contextValue}${pluralSuffix}`);
                             });
                         });
                     }
@@ -969,7 +972,7 @@ class Parser {
 
                     if (containsContext) {
                         contextValues.forEach(contextValue => {
-                            resKeys.push(`${key}${contextSeparator}${contextValue}`);
+                            resKeys.push(`${key}${cntxtSeparator}${contextValue}`);
                         });
                     }
                 }
