@@ -1016,7 +1016,7 @@ test('Context with plural combined', (t) => {
         const parser = new Parser({
             context: true,
             contextFallback: true,
-            contextList: {'gender': {list: ['male', 'female'], fallback: false }},
+            contextList: {'gender': {list: ['male', 'female'], fallback: false, separator: true }},
             plural: false
         });
         parser.parseFuncFromString(content);
