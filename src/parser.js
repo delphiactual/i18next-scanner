@@ -82,7 +82,7 @@ const defaults = {
     contextFallback: true, // whether to add a fallback key as well as the context form key
     contextSeparator: '_', // char to split context from key
     contextDefaultValues: [], // list of values for dynamic values
-    contextList: { 'default': { list: [], fallback: false, separator: true } }, // all valid dynamic values
+    contextList: { 'default': { list: [], fallback: true, separator: true } }, // all valid dynamic values
 
     // Plural Form
     plural: true, // whether to add plural form key
@@ -948,6 +948,7 @@ class Parser {
                 })();
 
                 const contextListSeparator = contextList?.[options.contextList]?.separator ?? contextSeparator ? contextSeparator : '';
+                const contextListFallback = contextList?.[options.contextList]?.fallback ?? contextFallback;
 
                 if (containsPlural) {
                     let suffixes = pluralFallback
@@ -966,7 +967,7 @@ class Parser {
                         });
                     }
                 } else {
-                    if (!containsContext || (containsContext && (contextList?.[options.contextList]?.fallback ?? contextFallback))) {
+                    if (!containsContext || (containsContext && (contextListFallback))) {
                         resKeys.push(key);
                     }
 
