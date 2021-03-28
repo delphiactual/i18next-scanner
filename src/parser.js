@@ -334,7 +334,11 @@ class Parser {
 
         // Ignore key with embedded expressions in string literals
         if (firstChar === '`' && fixedString.match(/\${.*?}/)) {
-            fixedString = fixedString.replace(/\$\{(.+?)\}/g, "");
+            if (fixedString.endsWith('}`')) {
+                fixedString = fixedString.replace(/\$\{(.+?)\}/g, "");
+            } else {
+                return null
+            }
         }
 
         if (_.includes(['\'', '"', '`'], firstChar)) {

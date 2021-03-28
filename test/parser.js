@@ -1134,7 +1134,6 @@ test('Extract properties from template literals', (t) => {
                 'property in template literals': 'property in template literals',
                 'added {{foo}}\n and {{bar}}': 'added {{foo}}\n and {{bar}}',
                 'errors.': 'errors.',
-                'string text\n  string text': 'string text\n  string text',
                 'good_key': 'good_key',
             }
         }
