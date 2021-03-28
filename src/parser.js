@@ -334,7 +334,7 @@ class Parser {
 
         // Ignore key with embedded expressions in string literals
         if (firstChar === '`' && fixedString.match(/\${.*?}/)) {
-            return null;
+            fixedString = fixedString.replace(/\$\{(.+?)\}/g, "");
         }
 
         if (_.includes(['\'', '"', '`'], firstChar)) {
@@ -910,6 +910,9 @@ class Parser {
 
                 // http://i18next.com/translate/context/
                 const containsContext = (() => {
+                    if (ensureArray(contextList?.[options.contextList]?.list)?.length > 0) {
+                        return true;
+                    }
                     if (!context) {
                         return false;
                     }
@@ -935,11 +938,11 @@ class Parser {
                 })();
 
                 const contextValues = (() => {
-                    if (options.context !== '') {
-                        return [options.context];
-                    }
                     if (ensureArray(contextList?.[options.contextList]?.list)?.length > 0) {
                         return ensureArray(contextList[options.contextList]?.list);
+                    }
+                    if (options.context !== '') {
+                        return [options.context];
                     }
                     if (ensureArray(contextDefaultValues).length > 0) {
                         return ensureArray(contextDefaultValues);
@@ -947,8 +950,9 @@ class Parser {
                     return [];
                 })();
 
-                const contextListSeparator = contextList?.[options.contextList]?.separator ?? contextSeparator ? contextSeparator : '';
-                const contextListFallback = contextList?.[options.contextList]?.fallback ?? contextFallback;
+                const validContextList = contextList?.[options.contextList]
+                const contextListSeparator = validContextList?.separator ?? contextSeparator ? contextSeparator : '';
+                const contextListFallback = validContextList?.fallback ?? contextFallback;
 
                 if (containsPlural) {
                     let suffixes = pluralFallback

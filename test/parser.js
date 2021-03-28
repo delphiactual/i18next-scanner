@@ -1014,7 +1014,6 @@ test('Context with plural combined', (t) => {
 
     test('No context fallback w/ contextList', (t) => {
         const parser = new Parser({
-            context: true,
             contextFallback: true,
             contextList: {'gender': {list: ['male', 'female'], fallback: false, separator: true }},
             plural: false
@@ -1133,7 +1132,10 @@ test('Extract properties from template literals', (t) => {
         'en': {
             'translation': {
                 'property in template literals': 'property in template literals',
-                'added {{foo}}\n and {{bar}}': 'added {{foo}}\n and {{bar}}'
+                'added {{foo}}\n and {{bar}}': 'added {{foo}}\n and {{bar}}',
+                'errors.': 'errors.',
+                'string text\n  string text': 'string text\n  string text',
+                'good_key': 'good_key',
             }
         }
     };
